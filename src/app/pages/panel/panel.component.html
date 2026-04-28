@@ -1,0 +1,103 @@
+<app-site-header />
+
+<main class="container section">
+  <div class="panel-header">
+    <div>
+      <p class="section-kicker">Operaciones corporativas</p>
+      <h1 class="section-title" style="margin-bottom: 0">Gestión de Servicios</h1>
+    </div>
+    <div class="panel-live-badge">
+      <span class="panel-live-dot"></span> Live Update: ON
+    </div>
+  </div>
+
+  <div class="panel-grid">
+    <aside class="panel-form-card">
+      <h2 class="panel-form-card__title">Nuevo Servicio</h2>
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="form-group">
+          <label class="form-label form-label--upper" for="p-title">Título del servicio</label>
+          <input class="input" id="p-title" type="text" formControlName="title"
+            placeholder="Ej: Consultoría Energética"
+            [class.input--error]="fieldInvalid('title')" />
+          <span class="form-error">{{ fieldInvalid('title') ? errorMessage('title') : '' }}</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label form-label--upper" for="p-desc">Descripción</label>
+          <textarea class="input textarea" id="p-desc" formControlName="description"
+            placeholder="Detalles técnicos del servicio..."
+            [class.input--error]="fieldInvalid('description')"></textarea>
+          <span class="form-error">{{ fieldInvalid('description') ? errorMessage('description') : '' }}</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label form-label--upper" for="p-img">URL de imagen (preview)</label>
+          <input class="input" id="p-img" type="url" formControlName="image"
+            placeholder="https://images.unsplash.com/..." />
+        </div>
+        <button type="submit" class="btn btn--primary btn--block btn--lg">Publicar Servicio</button>
+      </form>
+    </aside>
+
+    <div class="panel-table-card">
+      <div class="panel-table-header">
+        <h2 class="panel-table-card__title">Servicios Activos</h2>
+        <span class="panel-total-badge">{{ services().length }} Total</span>
+      </div>
+      <div class="panel-table-wrap">
+        <table class="panel-table">
+          <thead>
+            <tr>
+              <th>Vista</th>
+              <th>Nombre del servicio</th>
+              <th>Categoría</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of services(); track s.id; let i = $index) {
+              <tr>
+                <td>
+                  <div class="panel-thumb"
+                    [class.panel-thumb--gradient]="!s.image"
+                    [style.background]="!s.image ? 'linear-gradient(135deg, #0a2540, #1565c0)' : null">
+                    @if (s.image) {
+                      <img [src]="s.image" [alt]="s.title" />
+                    }
+                  </div>
+                </td>
+                <td>
+                  <div class="panel-service-name">{{ s.title }}</div>
+                  <div class="panel-service-id">ID: #{{ s._panelId || s.id }}</div>
+                </td>
+                <td>
+                  <span class="panel-category-badge"
+                    [class]="'panel-category-badge panel-category-badge--' + (s.categoryKey || 'tecnologia')">
+                    {{ badgeFor(s) }}
+                  </span>
+                </td>
+                <td>
+                  <div class="panel-actions">
+                    <button type="button" class="panel-action-btn panel-action-btn--edit" (click)="edit(i)" title="Editar">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                      </svg>
+                    </button>
+                    <button type="button" class="panel-action-btn panel-action-btn--delete" (click)="remove(i)" title="Eliminar">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<app-site-footer />

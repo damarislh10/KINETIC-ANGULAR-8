@@ -1,0 +1,102 @@
+<app-site-header />
+
+<main>
+  <section class="mission-hero container section">
+    <div class="mission-hero__grid">
+      <div>
+        <span class="badge-pill">Conoce Kinetic</span>
+        <h1 class="hero__title">
+          Nuestra Misión: <span class="text-gradient">Acelerar tu Futuro Digital</span>
+        </h1>
+        <p class="hero__lead" style="max-width: 520px">
+          No solo construimos software; diseñamos los cimientos sobre los cuales las empresas líderes del mañana escalan hoy mismo.
+        </p>
+        <a class="btn btn--primary btn--lg btn--pill" routerLink="/" fragment="contacto">Descubre Nuestro Método</a>
+      </div>
+      <div class="mission-hero__visual">
+        <img src="data/images/kitetic hub.png" alt="Kinetic Hub — plataforma tecnológica" class="mission-hero__img" />
+      </div>
+    </div>
+
+    <div class="split-stats">
+      <div class="stat-card-large">
+        <h3>+100 proyectos entregados con éxito</h3>
+      </div>
+      <div class="stat-cards-small">
+        <div class="stat-card-mini stat-card-mini--blue">
+          <h4>50+ clientes</h4>
+          <p>Relaciones de largo plazo</p>
+        </div>
+        <div class="stat-card-mini stat-card-mini--orange">
+          <h4>2.4× crecimiento</h4>
+          <p>Impacto medible en ingresos</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block" style="margin-top: 2rem">
+      <div class="quote-block__avatar">CD</div>
+      <div>
+        <p>"KINETIC entiende tanto la estrategia como la ejecución; son un partner de confianza."</p>
+        <cite>— Clementine Delauney</cite>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2 class="section-title" style="text-align: center">Principios que impulsan el cambio</h2>
+    <p style="text-align: center; color: var(--color-muted); max-width: 560px; margin: -1rem auto 2rem">
+      Valores renderizados desde JSON para demostrar el mismo patrón de datos que en Angular.
+    </p>
+    <div class="principles-grid">
+      @for (p of principles(); track p.id) {
+        <article class="principle-card">
+          <div class="principle-card__icon" [class]="'principle-card__icon ' + iconClass(p)">{{ p.title.charAt(0) }}</div>
+          <h3 class="service-card__title">{{ p.title }}</h3>
+          <p class="service-card__desc">{{ p.description }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker">Equipo</p>
+        <h2 class="section-title" style="margin-bottom: 0">Mentes brillantes detrás del código</h2>
+      </div>
+      <div class="carousel-nav">
+        <button type="button" (click)="scrollPrev()" title="Anterior">←</button>
+        <button type="button" (click)="scrollNext()" title="Siguiente">→</button>
+      </div>
+    </div>
+    <div #teamCarousel class="team-carousel">
+      <div class="team-grid">
+        @for (m of team(); track m.id) {
+          <article class="team-card">
+            <button type="button" class="fav-toggle"
+              [class.fav-toggle--on]="isTeamFav(m.id)"
+              [class.fav-toggle--off]="!isTeamFav(m.id)"
+              (click)="toggleTeam(m.id)" aria-label="Favorito">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </button>
+            <div class="team-card__avatar">{{ m.initials }}</div>
+            <h3 class="team-card__name">{{ m.name }}</h3>
+            <p class="team-card__role">{{ m.role }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="container" style="padding-bottom: 4rem">
+    <div class="cta-band">
+      <h2>¿Listo para el siguiente paso?</h2>
+      <a class="btn btn--primary btn--lg btn--pill" routerLink="/" fragment="contacto">Agendar consultoría gratuita</a>
+    </div>
+  </section>
+</main>
+
+<app-site-footer />

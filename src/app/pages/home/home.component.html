@@ -1,0 +1,144 @@
+<app-site-header />
+
+<main>
+  <section class="hero container">
+    <div class="hero__grid">
+      <div>
+        <span class="badge-pill">Innovación corporativa</span>
+        <h1 class="hero__title">
+          Impulsamos tu <span class="text-gradient">transformación digital</span>
+        </h1>
+        <p class="hero__lead">
+          Soluciones tecnológicas de alto impacto para escalar operaciones, seguridad y
+          experiencia, con el sello de excelencia KINETIC.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary btn--lg btn--pill" routerLink="/catalogo">Explorar Catálogo</a>
+          <a class="btn btn--secondary btn--lg btn--pill" routerLink="/nosotros">Saber más</a>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__image-wrap" role="img" aria-label="Visual tecnológico abstracto">
+          <img src="data/images/img1.png" alt="Visual tecnológico abstracto" class="hero__img" />
+          <div class="hero__float-card">
+            <div class="hero__float-label">Impacto real</div>
+            <div class="hero__float-value">Eficiencia +45%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-item__num">12k+</div><div class="stat-item__label">Proyectos</div></div>
+      <div class="stat-item"><div class="stat-item__num">98%</div><div class="stat-item__label">Fidelidad</div></div>
+      <div class="stat-item"><div class="stat-item__num">45%</div><div class="stat-item__label">Eficiencia</div></div>
+      <div class="stat-item"><div class="stat-item__num">24/7</div><div class="stat-item__label">Soporte</div></div>
+    </div>
+  </div>
+
+  <section class="section container" id="servicios-preview">
+    <p class="section-kicker">Nuestros servicios</p>
+    <h2 class="section-title">Excelencia tecnológica</h2>
+    <div class="grid-services" aria-live="polite">
+      @for (s of services(); track s.id) {
+        <app-service-card [service]="s" />
+      }
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head">
+      <div>
+        <p class="section-kicker section-kicker--red">Testimonios</p>
+        <h2 class="section-title" style="margin-bottom: 0">Confianza en movimiento</h2>
+      </div>
+      <div class="carousel-nav" aria-hidden="true">
+        <button type="button" title="Anterior">←</button>
+        <button type="button" title="Siguiente">→</button>
+      </div>
+    </div>
+    <div class="testimonial-grid">
+      @for (t of testimonials(); track t.id) {
+        <article class="testimonial-card">
+          <div class="testimonial-card__stars" aria-hidden="true">★★★★★</div>
+          <p class="testimonial-card__quote">{{ t.quote }}</p>
+          <div class="testimonial-card__footer">
+            <div class="testimonial-card__avatar">{{ t.initials }}</div>
+            <div>
+              <div class="testimonial-card__name">{{ t.name }}</div>
+              <div class="testimonial-card__role">{{ t.role }}</div>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="cta-band">
+      <h2>¿Listo para el siguiente paso?</h2>
+      <button type="button" class="btn btn--primary btn--lg btn--pill" (click)="openModal()">
+        Agendar consultoría gratuita
+      </button>
+    </div>
+  </section>
+
+  <section class="contact-section section container" id="contacto">
+    <p class="section-kicker">Contacto</p>
+    <h2 class="section-title">Hablemos de tu proyecto</h2>
+    <div class="contact-grid">
+      <div>
+        <p style="color: var(--color-muted); max-width: 480px">
+          Completa el formulario con datos válidos. El correo se valida con formato estándar y el
+          mensaje requiere un mínimo de caracteres.
+        </p>
+      </div>
+      <div class="contact-card">
+        <h3>Formulario validado</h3>
+        <form [formGroup]="contactForm" (ngSubmit)="submit()" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="c-name">Nombre</label>
+            <input class="input" id="c-name" type="text" formControlName="name" autocomplete="name"
+              [class.input--error]="fieldInvalid('name')" />
+            <span class="form-error">{{ fieldInvalid('name') ? errorMessage('name') : '' }}</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="c-email">Correo electrónico</label>
+            <input class="input" id="c-email" type="email" formControlName="email" autocomplete="email"
+              [class.input--error]="fieldInvalid('email')" />
+            <span class="form-error">{{ fieldInvalid('email') ? errorMessage('email') : '' }}</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="c-company">Empresa (opcional)</label>
+            <input class="input" id="c-company" type="text" formControlName="company" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="c-msg">Mensaje</label>
+            <textarea class="input textarea" id="c-msg" formControlName="message"
+              [class.input--error]="fieldInvalid('message')"></textarea>
+            <span class="form-error">{{ fieldInvalid('message') ? errorMessage('message') : '' }}</span>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">Enviar mensaje</button>
+          @if (statusMessage()) {
+            <p class="form-error" style="margin-top: 1rem; color: #2e7d32">{{ statusMessage() }}</p>
+          }
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay" [class.modal-overlay--open]="modalOpen()" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button type="button" class="modal__close" (click)="closeModal()" aria-label="Cerrar">×</button>
+    <h2 class="modal__title">Agendar consultoría</h2>
+    <p class="modal__subtitle">
+      Esta acción enlaza con el mismo flujo de contacto: desplázate al formulario o complétalo aquí en la página principal.
+    </p>
+    <a class="btn btn--primary btn--block" routerLink="/" fragment="contacto" (click)="closeModal()">Ir al formulario de contacto</a>
+  </div>
+</div>
+
+<app-site-footer />

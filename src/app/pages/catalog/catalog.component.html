@@ -1,0 +1,48 @@
+<app-site-header />
+
+<main class="container section">
+  <header class="catalog-hero">
+    <p class="catalog-hero__kicker">Catálogo corporativo</p>
+    <h1 class="catalog-hero__title">Impulsa tu <span>Energía Corporativa</span></h1>
+    <p class="catalog-hero__lead">
+      Descubre soluciones de alto impacto diseñadas para escalar la operatividad y la visión de
+      tu empresa con el sello de excelencia KINETIC.
+    </p>
+  </header>
+
+  <div class="filter-bar">
+    <div class="filter-pills" role="toolbar" aria-label="Filtrar por categoría">
+      @for (p of pills; track p.key) {
+        <button type="button"
+          class="filter-pill"
+          [class.filter-pill--active]="!favoritesOnly() && activeCategory() === p.key"
+          (click)="selectCategory(p.key)">
+          {{ p.label }}
+        </button>
+      }
+      <button type="button"
+        class="filter-pill"
+        [class.filter-pill--active]="favoritesOnly()"
+        (click)="selectFavorites()">
+        Favoritos
+      </button>
+    </div>
+    <button type="button" class="filter-extra">
+      <span>Filtrar</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M3 6h18v2H3V6zm4 5h10v2H7v-2zm4 5h2v2h-2v-2z" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="grid-services" aria-live="polite">
+    @if (filtered().length === 0) {
+      <p class="empty-state">No hay servicios en esta vista. Marca favoritos en las tarjetas o cambia el filtro.</p>
+    }
+    @for (s of filtered(); track s.id) {
+      <app-service-card [service]="s" />
+    }
+  </div>
+</main>
+
+<app-site-footer />

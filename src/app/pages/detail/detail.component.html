@@ -1,0 +1,114 @@
+<app-site-header />
+
+<main id="detail-main">
+  <div class="container">
+    @if (notFound()) {
+      <div class="section">
+        <p class="empty-state">Servicio no encontrado. <a routerLink="/catalogo">Volver al catálogo</a></p>
+      </div>
+    } @else if (service(); as s) {
+      <p class="breadcrumbs">
+        <a routerLink="/">Inicio</a><span>›</span><a routerLink="/catalogo">Servicios</a><span>›</span><span>{{ s.title.toUpperCase() }}</span>
+      </p>
+
+      <section class="detail-hero">
+        <div class="detail-hero__grid">
+          <div>
+            <span class="badge-pill">{{ s.badge }}</span>
+            <h1 class="detail-hero__title">
+              {{ s.heroTitlePrefix }} <span class="highlight">{{ s.heroTitleHighlight }}</span>{{ s.heroTitleSuffix }}
+            </h1>
+            <p class="detail-hero__desc">{{ s.description }}</p>
+          </div>
+          <div class="detail-visual" [class]="'detail-visual ' + detailVisualClass()" aria-hidden="true">
+            @if (s.image) {
+              <img class="detail-visual__img" [src]="s.image" [alt]="s.title" loading="lazy" />
+            }
+            <div class="detail-visual__glow"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="detail-layout">
+        <div>
+          <article class="content-card">
+            <h2>Visión general del servicio</h2>
+            <p>{{ s.description }}</p>
+          </article>
+          <div class="cap-grid">
+            <h3 class="cap-grid__title">Capacidades técnicas</h3>
+            <div class="cap-grid__items">
+              @for (c of s.capabilities; track c.title) {
+                <div class="cap-item">
+                  <h3>{{ c.title }}</h3>
+                  <p>{{ c.description }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        <aside>
+          <div class="sidebar-card">
+            <p>Agenda una sesión con un consultor senior para aterrizar alcance, plazos y ROI.</p>
+            <button type="button" class="btn btn--primary btn--block btn--lg" (click)="goConsult()">
+              Contactar consultor →
+            </button>
+            <button type="button"
+              class="btn btn--block btn--lg"
+              [class.btn--outline]="!isFav()"
+              [class.btn--primary]="isFav()"
+              (click)="toggleFav()">
+              <span aria-hidden="true">{{ isFav() ? '♥' : '♡' }}</span>
+              {{ isFav() ? ' En favoritos' : ' Añadir a Favoritos' }}
+            </button>
+            <ul class="checklist">
+              <li>SLA medible y reportes claros</li>
+              <li>Soporte durante el despliegue</li>
+              <li>Auditorías de seguridad opcionales</li>
+            </ul>
+          </div>
+          <div class="promo-card">
+            <h3>Caso de éxito</h3>
+            <p>Descarga el whitepaper sobre optimización operativa en entornos regulados.</p>
+            <a href="#">Leer más</a>
+          </div>
+        </aside>
+      </div>
+
+      <section class="testimonial-dark">
+        <div class="testimonial-dark__quote">"</div>
+        <p>
+          La implementación de la optimización de flujos de KINETIC fue el punto de inflexión para
+          nuestra operación logística global.
+        </p>
+        <div class="testimonial-dark__author">
+          <div class="testimonial-dark__avatar">AV</div>
+          <div>
+            <strong>Alejandro Vivas</strong><br />
+            <small style="opacity: 0.85">CTO, Global Logistics Group</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-card" style="margin-top: 2rem">
+        <h2>Contacto rápido (validación demo)</h2>
+        <form [formGroup]="quickForm" (ngSubmit)="submitQuick()" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="dq-email">Correo</label>
+            <input class="input" id="dq-email" type="email" formControlName="email"
+              [class.input--error]="emailInvalid()" />
+            <span class="form-error">{{ emailInvalid() ? 'Correo no válido.' : '' }}</span>
+          </div>
+          <button class="btn btn--secondary" type="submit">Solicitar información</button>
+          @if (quickStatus()) {
+            <p class="form-error" style="margin-top: 1rem; color: #2e7d32">{{ quickStatus() }}</p>
+          }
+        </form>
+      </section>
+    } @else {
+      <div class="section"><p>Cargando…</p></div>
+    }
+  </div>
+</main>
+
+<app-site-footer />
