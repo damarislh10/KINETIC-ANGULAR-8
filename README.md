@@ -23,7 +23,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 ## Datos
 
 - `data/services.json` — servicios, testimonios, principios y equipo.
-- 
+
 ## Development server
 
 To start a local development server, run:
